@@ -41,7 +41,7 @@ avatar: assets/images/avatar.jpg
 
 # You'll want to customize url and baseurl for your own site:
 
-baseurl:
+baseurl: "https://20-1-skku-oss.github.io"
 
 url: "https://20-1-skku-oss.github.io/2020-1-OSS-9" # the base hostname & protocol for your site
 
