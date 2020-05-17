@@ -17,7 +17,7 @@ sass:
 permalink: /posts/:title/
 texture:
   title: OSS9
-  tagline: OSS project
+  tagline: 
   date_format: "%b %-d, %Y"
   style: black
   showNav: false
