@@ -2,7 +2,7 @@ title: Mekyll theme demo
 email: 
 description: >
   Mekyll - Medium-style theme for Jekyll
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/2020-1-OSS-9" # the subpath of your site, e.g. /blog
 remote theme: ifedyukin/Mekyll
 url: "https://20-1-skku-oss.github.io/2020-1-OSS-9/" # the base hostname & protocol for your site
 postCount: 5 # the number of posts on the "index" page
