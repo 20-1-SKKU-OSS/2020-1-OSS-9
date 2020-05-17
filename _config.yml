@@ -1,7 +1,7 @@
 title: "Jekyll-Theme-MDUI"
 description: "A Jekyll theme based on MDUI"
 url: 
-baseurl: ""
+baseurl: 
 remote theme: kejunmao/jekyll-theme-mdui
 author: "KeJun"
 paginate: 5
