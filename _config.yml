@@ -19,7 +19,7 @@ texture:
   title: OSS9
   tagline: 
   date_format: "%b %-d, %Y"
-  style: black
+  style: blue
   showNav: false
   showPicker: true
 
