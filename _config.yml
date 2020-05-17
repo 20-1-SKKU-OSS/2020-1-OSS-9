@@ -1,48 +1,25 @@
-plugins: [jekyll-paginate]
-
-permalink: /:categories/:title/
-
-highlighter: rouge
-markdown: kramdown
-kramdown:
-  input:  GFM
-  syntax_highlighter: rouge
-
-
-paginate: 10
-paginate_path: "page/:num"
+title: "Jekyll-Theme-MDUI"
+description: "A Jekyll theme based on MDUI"
+url: 
 baseurl: ""
+remote theme: kejunmao/jekyll-theme-mdui
+author: "KeJun"
+paginate: 5
+paginate_path: "/blog/page:num/"
 
-remote theme: bit-ranger/Tiffany
+plugins:
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-feed
 
-
-defaults:
-  -
-    scope:
-      path: ""
-      type: posts
-    values:
-      layout: post
-      styles : [highlight.css,gitment.css,post.css]
-      scripts : [gitment.js, post.js]
-
-
-title: "OSS9"
-email: sincerebravefight@gmail.com
-description: ""
-github:
-  username: 2020-1-OSS-9
-swiftype:
-  searchId: iXZyPokVfxFaBTvi64Y6
-gitment:
-    repo: blog
-    client_id: a6fb73b3e790e234bab8
-    client_secret: cc10aaff53a03d05ab2ee002dbf401dd7627c7a3
-
-url: "https://20-1-skku-oss.github.io/2020-1-OSS-9"
-imgrepo: "https://20-1-skku-oss.github.io/2020-1-OSS-9/static/img"
-
-
-#url: "http://127.0.0.1:4000"
-#imgrepo: "http://127.0.0.1:4000/static/img"
-
+exclude:
+  - package.json
+  - node_modules
+  - gulpfile.js
+  - Gemfile
+  - Gemfile.lock
+  - jekyll-theme-mdui.gemspec
+  - LICENSE.txt
+  - README.md
+  - vendor
+  - docs
