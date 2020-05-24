@@ -1,5 +1,9 @@
 # OSS 9조
 
+# static page 주서
+
+https://20-1-skku-oss.github.io/2020-1-OSS-9/
+
 # 팀원
 
 번역:	이민규, 윤재식
