@@ -1,3 +1,11 @@
+# OSS 9조
+
+# 팀원
+번역:	이민규, 윤재식
+git 저장소 관리:	임유진, 이황근
+소스 코드 분석:	윤형호, 윤재식
+소스 코드 추가:	윤형호, 이민규, 임유진, 이황근
+
 # MusicBot
 
 [![GitHub stars](https://img.shields.io/github/stars/Just-Some-Bots/MusicBot.svg)](https://github.com/Just-Some-Bots/MusicBot/stargazers)
