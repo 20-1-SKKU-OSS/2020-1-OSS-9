@@ -23,7 +23,7 @@ git 저장소 관리:	임유진, 이황근
 
 MusicBot is the original Discord music bot written for [Python](https://www.python.org "Python homepage") 3.5+, using the [discord.py](https://github.com/Rapptz/discord.py) library. It plays requested songs from YouTube and other services into a Discord server (or multiple servers). Besides, if the queue becomes empty MusicBot will play through a list of existing songs with configuration. The bot features a permission system allowing owners to restrict commands to certain people. As well as playing songs, MusicBot is capable of streaming live media into a voice channel (experimental).
 
-MusicBot은 현재 Discord에서 가장 널리 쓰이고 있는 음악재생 봇으로 discord.py 라이브러리를 통하여 [Python](https://www.python.org "Python homepage") 3.5 이상의 버전에서 또한 사용 가능합니다. MusicBot은 사용자로부터 입력을 받아 YouTube와 같은 서비스에서 재생되는 미디어 파일 및 노래들을 Discord 서버를 통해 재생하며, 설정을 통해 재생목록이 비어있는 경우에도 특정 음악을 재생하게 할 수 있습니다. 또한, 접근권한 설정을 통해 관리자로 하여금 다른 사용자의 명령어을 제한할 수 있도록 하는 기능을 제공하고 있습니다.
+MusicBot은 현재 Discord에서 가장 널리 쓰이고 있는 음악재생 봇으로 discord.py 라이브러리를 통해 [Python](https://www.python.org "Python homepage") 3.5 이상의 버전에서의 사용을 지원합니다. MusicBot은 사용자로부터 입력을 받아 YouTube와 같은 미디어 서비스 플랫폼에서 재생되는 미디어 파일 및 음악들을 Discord 서버를 통해 재생합니다. 설정을 통해 재생목록이 비어있는 경우에도 특정 음악을 재생하게 할 수 있으며, 접근권한 설정을 통해 다른 사용자의 명령어을 제한하는 기능 또한 제공하고 있습니다.
 (실험중인 기능) MusicBot은 음악 재생과 더불어, 라이브 미디어 재생 기능 또한 제공하고 있습니다. 
 
 ![Main](https://i.imgur.com/FWcHtcS.png)
@@ -41,7 +41,7 @@ MusicBot 설치는 아주 간단한 [가이드](https://just-some-bots.github.io
 
 There are many commands that can be used with the bot. Most notably, the `play <url>` command (preceded by your command prefix) will download, process, and play a song from YouTube or a similar site. A full list of commands is available [here](https://just-some-bots.github.io/MusicBot/using/commands/ "Commands").
 
-MusicBot은 매우 다양한 명령어들을 제공하고 있으며, 가장 자주 사용하게 될 명령어로는 `play <url>`이 있습니다. 해당 명령어를 통해 <url>에 해당하는 미디어 파일을 YouTube와 같은 서버를 통해 다운로드 및 재생할 수 있습니다. 기타 명령어는 [여기](https://just-some-bots.github.io/MusicBot/using/commands/ "Commands")를 통해 확인하시기 바랍니다.
+MusicBot은 매우 다양한 명령어들을 제공하고 있으며, 가장 자주 사용하게 될 명령어로는 `play <url>`이 있습니다. 해당 명령어를 통해 <url>에 해당하는 미디어 파일을 Discord 서버를 통해 다운로드 및 재생할 수 있습니다. 기타 명령어는 [여기](https://just-some-bots.github.io/MusicBot/using/commands/ "Commands")를 참고하시기 바랍니다.
 
 ### Further reading
 
