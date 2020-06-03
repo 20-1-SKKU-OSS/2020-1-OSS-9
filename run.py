@@ -425,7 +425,7 @@ def main():
             asyncio.set_event_loop(asyncio.new_event_loop())
             loops += 1
 
-        sleeptime = min(loops * 2, max_wait_time)
+        sleeptime = min(loops * 3, max_wait_time)
         if sleeptime:
             log.info("Restarting in {} seconds...".format(loops*2))
             time.sleep(sleeptime)
