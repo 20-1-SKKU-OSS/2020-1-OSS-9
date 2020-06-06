@@ -427,7 +427,7 @@ def main():
 
         sleeptime = min(loops * 3, max_wait_time)
         if sleeptime:
-            log.info("Restarting in {} seconds...".format(loops*2))
+            log.info("Restarting in {} seconds...".format(loops*3))
             time.sleep(sleeptime)
 
     print()
