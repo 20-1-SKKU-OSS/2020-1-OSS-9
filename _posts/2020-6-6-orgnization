@@ -7,29 +7,21 @@ date:   2020-006-06
 <title> MusicBot </title>
 -->
 
-<h1>MusicBot License</h1>
-<p>
- &nbsp;&nbsp;&nbsp;&nbsp; Just-Some-Bots/MusicBot is licensed under the MIT License.
-A short and simple permissive license with conditions only requiring preservation of copyright and license notices. Licensed works, modifications, and larger works may be distributed under different terms and without source code.<div></div>
-Link: <a href="https://github.com/Just-Some-Bots/MusicBot/blob/master/LICENSE">https://github.com/Just-Some-Bots/MusicBot/blob/master/LICENSE</a> 
 
-
-</p>
-
-
-<h1>소개</h1>
+<h1>autoplaylist 추가</h1>
 <p> 
-&nbsp;&nbsp;&nbsp;&nbsp;MusicBot is the original Discord music bot written for Python 3.5+, using the discord.py library. It plays requested songs from YouTube and other services into a Discord server (or multiple servers). Besides, if the queue becomes empty MusicBot will play through a list of existing songs with configuration. The bot features a permission system allowing owners to restrict commands to certain people. As well as playing songs, MusicBot is capable of streaming live media into a voice channel (experimental). <div></div>
-Link: <a href="https://github.com/Just-Some-Bots/MusicBot">https://github.com/Just-Some-Bots/MusicBot</a> 
+&nbsp;&nbsp;&nbsp;&nbsp;디스코드 뮤직봇은 url을 사용해서 음악을 실행한다. 이때 입력한 url에 오타가 있거나 url이 없을 경우 에러를 출력하고 종료하는 대신 autoplaylist에 들어있는 음악을 틀어준다.<div></div>
+&nbsp;&nbsp;&nbsp;&nbsp;autoplaylist는 약 300개나 되지만 kpop이 안섞여있고 노래들 대부분이 2015년도 노래들이라 리스트를 추가했다.
 </p>
 
-<h1>선정이유</h1>
+<h1>sleeping time 증가</h1>
 <p>
-&nbsp;&nbsp;&nbsp;&nbsp;디스코드 버젼이 업그레이드되도 호환성을 꾸준히 유지하는 것과 한글로도 사용할 수 있게 코드를 추가하는 것으로 기여할 수 있을 것 같다. <div></div>
-&nbsp;&nbsp;&nbsp;&nbsp;이와 함께, 언어를 배우는것에 시간을 투자하기 보다 실제 OSS프로젝트에 참여하고 기여하는 것이 본 수업의 취지와 적합하다고 판단하여 조원 모두가 익숙한 언어은 파이썬을 사용하는 프로젝트를 선정하게 되었다.
+&nbsp;&nbsp;&nbsp;&nbsp;현재 sleepingtime은 loop실행을 두번하고 sleeping을 한다. 기본 설정은 loop를 두번 돌고 중지이지만 생각보다 짧다고 생각했다.  <div></div>
+&nbsp;&nbsp;&nbsp;&nbsp;run.py의 428줄과 431줄을 보면 loop*2에서 loop*3로 증가했다. 그리고 max_wait_time을 90으로 초기화 하여 평소보다 1.5배 더 기능을 사용할 수 있다.  
 </p>
 
-<h1>최근 이슈</h1>
+<h1>번역</h1>
 <p>
-&nbsp;&nbsp;&nbsp;&nbsp;Issue를 보면 대부분 bot이 작동하지 않거나 디스코드 자체와 충돌하는 현상이 있으니 처리해달라는 요청이 많았다. 특히 파이썬 3.5.x를 넘어가는 파이썬에서는 작동이 안된다는 의견이 있었다. 가장 좋은 기여 방법은 코드를 가져다 수정하고 내용을 추가하는 것이다.
+&nbsp;&nbsp;&nbsp;&nbsp;readme.md를 번역하였다. 이 오픈소스는 다른 디스코드 음악봇들에 비해 오픈소스라 설치에 따로 비용을 요구하지 않는다. 우리나라 사람들도 뮤직봇을 많이 사용하는데 무료로 사용할 수 있는 뮤직봇을 홍보할 수 있다면 좋을 것이다.<div></div>
+&nbsp;&nbsp;&nbsp;&nbsp;영어가 너무 복잡할 것같아서 번역을 하였다.
 </p>
