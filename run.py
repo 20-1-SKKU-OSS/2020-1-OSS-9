@@ -356,7 +356,7 @@ def main():
     tryagain = True
 
     loops = 0
-    max_wait_time = 60
+    max_wait_time = 90
 
     while tryagain:
         # Maybe I need to try to import stuff first, then actually import stuff
