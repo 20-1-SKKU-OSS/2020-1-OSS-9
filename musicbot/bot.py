@@ -1147,6 +1147,8 @@ class MusicBot(discord.Client):
 
             else:
                 cmd = getattr(self, 'cmd_' + command, None)
+                if cmd == 'cmd_노래방' :
+                    cmd == cmd_karaoke
                 if cmd and not hasattr(cmd, 'dev_cmd'):
                     return Response(
                         "```\n{}```".format(
