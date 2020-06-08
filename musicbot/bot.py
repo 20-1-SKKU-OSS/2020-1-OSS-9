@@ -310,10 +310,10 @@ class MusicBot(discord.Client):
                     log.error("Failed to join {0.guild.name}/{0.name}".format(channel))
 
             elif channel:
-                log.warning("Not joining {0.guild.name}/{0.name}, that's a text channel.".format(channel))
+                log.warning("Not joining {0.guild.name}/{0.name}, that's a text channel. \n해당 채널은 텍스트 채널이므로 참여할 수 없습니다".format(channel))
 
             else:
-                log.warning("Invalid channel thing: {}".format(channel))
+                log.warning("Invalid channel thing: {} \n유효하지 않은 채널입니다.".format(channel))
 
     async def _wait_delete_msg(self, message, after):
         await asyncio.sleep(after)
@@ -335,7 +335,7 @@ class MusicBot(discord.Client):
             return True
         else:
             raise exceptions.PermissionsError(
-                "you cannot use this command when not in the voice channel (%s)" % vc.name, expire_in=30)
+                "you cannot use this command when not in the voice channel (%s) 보이스 채널에 들어간 상태에서만 해당 명령어를 사용할 수 있습니다." % vc.name, expire_in=30)
 
     async def _cache_app_info(self, *, update=False):
         if not self.cached_app_info and not update and self.user.bot:
@@ -347,12 +347,12 @@ class MusicBot(discord.Client):
 
     async def remove_from_autoplaylist(self, song_url:str, *, ex:Exception=None, delete_from_ap=False):
         if song_url not in self.autoplaylist:
-            log.debug("URL \"{}\" not in autoplaylist, ignoring".format(song_url))
+            log.debug("URL \"{}\" not in autoplaylist, ignoring\n 해당 URL은 자동재생목록에 없습니다.".format(song_url))
             return
 
         async with self.aiolocks[_func_()]:
             self.autoplaylist.remove(song_url)
-            log.info("Removing unplayable song from session autoplaylist: %s" % song_url)
+            log.info("Removing unplayable song from session autoplaylist: %s\n자동재생 목록 중 재생 불가능한 항목을 삭제했습니다." % song_url)
 
             with open(self.config.auto_playlist_removed_file, 'a', encoding='utf8') as f:
                 f.write(
@@ -553,7 +553,7 @@ class MusicBot(discord.Client):
             if not player.autoplaylist:
                 if not self.autoplaylist:
                     # TODO: When I add playlist expansion, make sure that's not happening during this check
-                    log.warning("No playable songs in the autoplaylist, disabling.")
+                    log.warning("No playable songs in the autoplaylist, disabling. \n자동재생 목록에 재생 가능한 노래가 없습니다.")
                     self.config.auto_playlist = False
                 else:
                     log.debug("No content in current autoplaylist. Filling with new music...")
@@ -574,7 +574,7 @@ class MusicBot(discord.Client):
                 except downloader.youtube_dl.utils.DownloadError as e:
                     if 'YouTube said:' in e.args[0]:
                         # url is bork, remove from list and put in removed list
-                        log.error("Error processing youtube url:\n{}".format(e.args[0]))
+                        log.error("Error processing youtube url:\n{}\n해당 유튜브 URL을 사용할 수 없습니다.".format(e.args[0]))
 
                     else:
                         # Probably an error from a different extractor, but I've only seen youtube's
@@ -591,7 +591,7 @@ class MusicBot(discord.Client):
                     continue
 
                 if info.get('entries', None):  # or .get('_type', '') == 'playlist'
-                    log.debug("Playlist found but is unsupported at this time, skipping.")
+                    log.debug("Playlist found but is unsupported at this time, skipping.\n해당 플레이리스트는 지원되지 않는 형식입니다.")
                     # TODO: Playlist expansion
 
                 # Do I check the initial conditions again?
@@ -780,24 +780,24 @@ class MusicBot(discord.Client):
 
         if not self.config.save_videos and os.path.isdir(AUDIO_CACHE_PATH):
             if self._delete_old_audiocache():
-                log.debug("Deleted old audio cache")
+                log.debug("Deleted old audio cache\n오래된 오디오 캐시를 삭제합니다.")
             else:
-                log.debug("Could not delete old audio cache, moving on.")
+                log.debug("Could not delete old audio cache, moving on.\n오래된 오디오 캐시 삭제가 불가능합니다.")
 
 
     async def _scheck_server_permissions(self):
-        log.debug("Checking server permissions")
+        log.debug("Checking server permissions\n서버 권한을 확인중입니다.")
         pass # TODO
 
     async def _scheck_autoplaylist(self):
-        log.debug("Auditing autoplaylist")
+        log.debug("Auditing autoplaylist\n자동재생목록을 점검하고 있습니다.")
         pass # TODO
 
     async def _scheck_configs(self):
-        log.debug("Validating config")
+        log.debug("Validating config\n설정 파일을 점검하고 있습니다.")
         await self.config.async_validate(self)
 
-        log.debug("Validating permissions config")
+        log.debug("Validating permissions config\n권한 파일을 점검하고 있습니다.")
         await self.permissions.async_validate(self)
 
 
@@ -823,14 +823,14 @@ class MusicBot(discord.Client):
                     msg = await dest.send(content, tts=tts)
 
         except discord.Forbidden:
-            lfunc("Cannot send message to \"%s\", no permission", dest.name)
+            lfunc("Cannot send message to \"%s\", no permission\n해당 메세지를 전송할 수 없습니다. 접근 권한 없음.", dest.name)
 
         except discord.NotFound:
-            lfunc("Cannot send message to \"%s\", invalid channel?", dest.name)
+            lfunc("Cannot send message to \"%s\", invalid channel?\n해당 메세지를 전송할 수 없습니다. 유효하지 않은 채널입니다.", dest.name)
 
         except discord.HTTPException:
             if len(content) > DISCORD_MSG_CHAR_LIMIT:
-                lfunc("Message is over the message size limit (%s)", DISCORD_MSG_CHAR_LIMIT)
+                lfunc("Message is over the message size limit (%s)\n메세지가 제한 크기를 초과했습니다.", DISCORD_MSG_CHAR_LIMIT)
             else:
                 lfunc("Failed to send message")
                 log.noise("Got HTTPException trying to send message to %s: %s", dest, content)
@@ -851,10 +851,10 @@ class MusicBot(discord.Client):
             return await message.delete()
 
         except discord.Forbidden:
-            lfunc("Cannot delete message \"{}\", no permission".format(message.clean_content))
+            lfunc("Cannot delete message \"{}\", no permission\n해당 메세지를 삭제할 수 없습니다. 접근권한 없음.".format(message.clean_content))
 
         except discord.NotFound:
-            lfunc("Cannot delete message \"{}\", message not found".format(message.clean_content))
+            lfunc("Cannot delete message \"{}\", message not found\n해당 메세지를 삭제할 수 없습니다. 메세지 발견 안됨.".format(message.clean_content))
 
     async def safe_edit_message(self, message, new, *, send_if_fail=False, quiet=False):
         lfunc = log.debug if quiet else log.warning
@@ -863,7 +863,7 @@ class MusicBot(discord.Client):
             return await message.edit(content=new)
 
         except discord.NotFound:
-            lfunc("Cannot edit message \"{}\", message not found".format(message.clean_content))
+            lfunc("Cannot edit message \"{}\", message not found\n해당 메세지를 수정할 수 없습니다. 메세지 발견 안됨.".format(message.clean_content))
             if send_if_fail:
                 lfunc("Sending message instead")
                 return await self.safe_send_message(message.channel, new)
@@ -872,7 +872,7 @@ class MusicBot(discord.Client):
         try:
             return await destination.trigger_typing()
         except discord.Forbidden:
-            log.warning("Could not send typing to {}, no permission".format(destination))
+            log.warning("Could not send typing to {}, no permission\n전송할 수 없습니다. 권한 없음.".format(destination))
 
     async def restart(self):
         self.exit_signal = exceptions.RestartSignal()
@@ -888,7 +888,7 @@ class MusicBot(discord.Client):
         except: pass
 
         pending = asyncio.Task.all_tasks()
-        gathered = asyncio.gather(*pending)
+        gathered = asyncio.gather(*pending) 
 
         try:
             gathered.cancel()
@@ -939,7 +939,7 @@ class MusicBot(discord.Client):
             log.error("Exception in {}".format(event), exc_info=True)
 
     async def on_resumed(self):
-        log.info("\nReconnected to discord.\n")
+        log.info("\nReconnected to discord.\n디스코드에 다시 연결 되었습니다.\n")
 
     async def on_ready(self):
         dlogger = logging.getLogger('discord')
@@ -948,7 +948,7 @@ class MusicBot(discord.Client):
                 dlogger.removeHandler(h)
                 print()
 
-        log.debug("Connection established, ready to go.")
+        log.debug("Connection established, ready to go.\n연결 완료.")
 
         self.ws._keep_alive.name = 'Gateway Keepalive'
 
@@ -1123,6 +1123,7 @@ class MusicBot(discord.Client):
             {command_prefix}resetplaylist
 
         Resets all songs in the server's autoplaylist
+        서버에 있는 모든 자동재생 목록을 초기화 시킵니다.
         """
         player.autoplaylist = list(set(self.autoplaylist))
         return Response(self.str.get('cmd-resetplaylist-response', '\N{OK HAND SIGN}'), delete_after=15)
@@ -1135,6 +1136,10 @@ class MusicBot(discord.Client):
         Prints a help message.
         If a command is specified, it prints a help message for that command.
         Otherwise, it lists the available commands.
+        
+        도움말 메세지를 출력합니다.
+        특정 명령어가 지정되어 있으면, 해당하는 도움말 메세지를 출력합니다.
+        지정되지 않은 경우, 현재 사용 가능한 모든 명령어들을 출력합니다.
         """
         self.commands = []
         self.is_all = False
@@ -1180,30 +1185,33 @@ class MusicBot(discord.Client):
 
         Add or remove users to the blacklist.
         Blacklisted users are forbidden from using bot commands.
+        
+        블랙리스트에 인원을 추가 및 삭제합니다.
+        블랙리스트 유저들은 봇 명령어를 사용할 수 없습니다.
         """
 
         if not user_mentions:
-            raise exceptions.CommandError("No users listed.", expire_in=20)
+            raise exceptions.CommandError("No users listed. \n블랙리스트가 비어있습니다.", expire_in=20)
 
-        if option not in ['+', '-', 'add', 'remove']:
+        if option not in ['+', '-', 'add', 'remove','추가','제거']:
             raise exceptions.CommandError(
-                self.str.get('cmd-blacklist-invalid', 'Invalid option "{0}" specified, use +, -, add, or remove').format(option), expire_in=20
+                self.str.get('cmd-blacklist-invalid', 'Invalid option "{0}" specified, use +, -, add, or remove\n유효하지 않은 명령입니다. +,-,add,remove,추가,삭제 명령어중 하나를 포함하십시오.').format(option), expire_in=20
             )
 
         for user in user_mentions.copy():
             if user.id == self.config.owner_id:
-                print("[Commands:Blacklist] The owner cannot be blacklisted.")
+                print("[Commands:Blacklist] The owner cannot be blacklisted.\n봇 관리자는 블랙리스트 대상이 될 수 없습니다.")
                 user_mentions.remove(user)
 
         old_len = len(self.blacklist)
 
-        if option in ['+', 'add']:
+        if option in ['+', 'add','추가']:
             self.blacklist.update(user.id for user in user_mentions)
 
             write_file(self.config.blacklist_file, self.blacklist)
 
             return Response(
-                self.str.get('cmd-blacklist-added', '{0} users have been added to the blacklist').format(len(self.blacklist) - old_len),
+                self.str.get('cmd-blacklist-added', '{0} users have been added to the blacklist\n유저들이 블랙리스트에 추가되었습니다.').format(len(self.blacklist) - old_len),
                 reply=True, delete_after=10
             )
 
@@ -1226,12 +1234,13 @@ class MusicBot(discord.Client):
             {command_prefix}id [@user]
 
         Tells the user their id or the id of another user.
+        해당 유저의 id를 알려줍니다.
         """
         if not user_mentions:
-            return Response(self.str.get('cmd-id-self', 'Your ID is `{0}`').format(author.id), reply=True, delete_after=35)
+            return Response(self.str.get('cmd-id-self', 'Your ID is `{0}`,당신의 ID는 위와 같습니다.').format(author.id), reply=True, delete_after=35)
         else:
             usr = user_mentions[0]
-            return Response(self.str.get('cmd-id-other', '**{0}**s ID is `{1}`').format(usr.name, usr.id), reply=True, delete_after=35)
+            return Response(self.str.get('cmd-id-other', '**{0}**s ID is `{1}`\n해당 유저의 ID는 위와 같습니다.').format(usr.name, usr.id), reply=True, delete_after=35)
 
     async def cmd_save(self, player, url=None):
         """
@@ -1239,6 +1248,7 @@ class MusicBot(discord.Client):
             {command_prefix}save [url]
 
         Saves the specified song or current song if not specified to the autoplaylist.
+        현재 재생되고 있는 음악을 자동재생 목록에 추가합니다.
         """
         if url or (player.current_entry and not isinstance(player.current_entry, StreamPlaylistEntry)):
             if not url:
@@ -1261,6 +1271,7 @@ class MusicBot(discord.Client):
             {command_prefix}joinserver invite_link
 
         Asks the bot to join a server.  Note: Bot accounts cannot use invite links.
+        봇이 서버에 참가하게 합니다. 주의: 봇은 초대 링크를 사용할 수 없습니다.
         """
 
         url = await self.generate_invite_link()
@@ -1276,6 +1287,8 @@ class MusicBot(discord.Client):
 
         Activates karaoke mode. During karaoke mode, only groups with the BypassKaraokeMode
         permission in the config file can queue music.
+        
+        노래방 모드로 변경합니다. 노래방 모드에서는 BypassKaraokeMode 권한이 있는 사용자만 재생목록을 변경할 수 있습니다.
         """
         player.karaoke_mode = not player.karaoke_mode
         return Response("\N{OK HAND SIGN} Karaoke mode is now " + ['disabled', 'enabled'][player.karaoke_mode], delete_after=15)
@@ -1315,6 +1328,12 @@ class MusicBot(discord.Client):
         If enabled in the config, the bot will also support Spotify URIs, however
         it will use the metadata (e.g song name and artist) to find a YouTube
         equivalent of the song. Streaming from Spotify is not possible.
+        
+        재생목록에 노래를 추가합니다.  URL을 명시해 주지 않으면 유튜브 검색 결과의
+        첫번재 항목을 사용합니다.
+        
+        config 파일에 설정이 되어 있는 경우, 봇은 Spotify URI를 사용합니다.
+        그러나 노래의 제목 등의 정보를 이용하여 유튜브에서 해당 음악을 찾으려고 합니다.
         """
 
         song_url = song_url.strip('<>')
@@ -1393,7 +1412,7 @@ class MusicBot(discord.Client):
 
             if player.karaoke_mode and not permissions.bypass_karaoke_mode:
                 raise exceptions.PermissionsError(
-                    self.str.get('karaoke-enabled', "Karaoke mode is enabled, please try again when its disabled!"), expire_in=30
+                    self.str.get('karaoke-enabled', "Karaoke mode is enabled, please try again when its disabled!\n노래방 모드가 활성화 되었습니다."), expire_in=30
                 )
 
             # Try to determine entry type, if _type is playlist then there should be entries
@@ -1430,13 +1449,13 @@ class MusicBot(discord.Client):
 
             if not info:
                 raise exceptions.CommandError(
-                    self.str.get('cmd-play-noinfo', "That video cannot be played. Try using the {0}stream command.").format(self.config.command_prefix),
+                    self.str.get('cmd-play-noinfo', "That video cannot be played. Try using the {0}stream command.\n해당 비디오를 재생할 수 없습니다.").format(self.config.command_prefix),
                     expire_in=30
                 )
 
             if info.get('extractor', '') not in permissions.extractors and permissions.extractors:
                 raise exceptions.PermissionsError(
-                    self.str.get('cmd-play-badextractor', "You do not have permission to play media from this service."), expire_in=30
+                    self.str.get('cmd-play-badextractor', "You do not have permission to play media from this service.\n해당 미디어를 재생할 수 있는 권한이 없습니다."), expire_in=30
                 )
 
             # abstract the search handling away from the user
@@ -1455,8 +1474,8 @@ class MusicBot(discord.Client):
 
                 if not info:
                     raise exceptions.CommandError(
-                        self.str.get('cmd-play-nodata', "Error extracting info from search string, youtubedl returned no data. "
-                                                        "You may need to restart the bot if this continues to happen."), expire_in=30
+                        self.str.get('cmd-play-nodata', "Error extracting info from search string, youtubedl returned no data. \n 검색 결과로부터 데이트 추출이 불가능 합니다."
+                                                        "You may need to restart the bot if this continues to happen.\n해당 현상이 지속된다면 뮤직봇을 재시작 해야 합니다."), expire_in=30
                     )
 
                 if not all(info.get('entries', [])):
