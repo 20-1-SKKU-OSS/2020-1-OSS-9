@@ -1153,7 +1153,21 @@ class MusicBot(discord.Client):
             else:
                 cmd = getattr(self, 'cmd_' + command, None)
                 if cmd == 'cmd_노래방' :
-                    cmd == cmd_karaoke
+                    cmd == 'cmd_karaoke'
+                if cmd == 'cmd_도움' :
+                    cmd == 'cmd_help'
+                if cmd == 'cmd_화면' :
+                    cmd == 'cmd_np'
+                if cmd == 'cmd_넘기기' :
+                    cmd == 'cmd_skip'
+                if cmd == 'cmd_섞기' :
+                    cmd == 'cmd_shuffle'
+                if cmd == 'cmd_중지' :
+                    cmd == 'cmd_pause'
+                if cmd == 'cmd_재생' :
+                    cmd == 'cmd_resume'
+                if cmd == 'cmd_저장' :
+                    cmd == 'cmd_save'  
                 if cmd and not hasattr(cmd, 'dev_cmd'):
                     return Response(
                         "```\n{}```".format(
