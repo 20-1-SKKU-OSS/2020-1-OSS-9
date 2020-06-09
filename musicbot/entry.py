@@ -42,6 +42,7 @@ class BasePlaylistEntry(Serializable):
         """
         Returns a future that will fire when the song is ready to be played. The future will either fire with the result (being the entry) or an exception
         as to why the song download failed.
+       
         """
         future = asyncio.Future()
         if self.is_downloaded:
@@ -157,6 +158,7 @@ class URLPlaylistEntry(BasePlaylistEntry):
         self._is_downloading = True
         try:
             # Ensure the folder that we're going to move into exists.
+            # 새로운 디렉토리로 이동 (및 생성)
             if not os.path.exists(self.download_folder):
                 os.makedirs(self.download_folder)
 
@@ -164,6 +166,7 @@ class URLPlaylistEntry(BasePlaylistEntry):
             extractor = os.path.basename(self.expected_filename).split('-')[0]
 
             # the generic extractor requires special handling
+            # generic extractor는 예외처리가 필요합니다.
             if extractor == 'generic':
                 flistdir = [f.rsplit('-', 1)[0] for f in os.listdir(self.download_folder)]
                 expected_fname_noex, fname_ex = os.path.basename(self.expected_filename).rsplit('.', 1)
@@ -179,18 +182,15 @@ class URLPlaylistEntry(BasePlaylistEntry):
                         os.listdir(self.download_folder)[flistdir.index(expected_fname_noex)]
                     )
 
-                    # print("Resolved %s to %s" % (self.expected_filename, lfile))
                     lsize = os.path.getsize(lfile)
-                    # print("Remote size: %s Local size: %s" % (rsize, lsize))
 
                     if lsize != rsize:
                         await self._really_download(hash=True)
                     else:
-                        # print("[Download] Cached:", self.url)
+
                         self.filename = lfile
 
                 else:
-                    # print("File not found in cache (%s)" % expected_fname_noex)
                     await self._really_download(hash=True)
 
             else:
