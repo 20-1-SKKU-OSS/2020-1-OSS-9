@@ -47,10 +47,12 @@ class BasePlaylistEntry(Serializable):
         future = asyncio.Future()
         if self.is_downloaded:
             # In the event that we're downloaded, we're already ready for playback.
+            # 다운로드가 되면 이미 재생 준비 완료
             future.set_result(self)
 
         else:
             # If we request a ready future, let's ensure that it'll actually resolve at one point.
+            # 만약 우리가 준비된 미래를 요청한다면, 그것이 실제로 한 순간에 해결되도록 보장하자.
             self._waiting_futures.append(future)
             asyncio.ensure_future(self._download())
 
@@ -60,6 +62,7 @@ class BasePlaylistEntry(Serializable):
     def _for_each_future(self, cb):
         """
             Calls `cb` for each future that is not cancelled. Absorbs and logs any errors that may have occurred.
+            취소되지 않는 미래마다 cb를 부른다. 발생할 수 있는 모든 오류를 흡수하고 기록하십시오.
         """
         futures = self._waiting_futures
         self._waiting_futures = []
@@ -132,12 +135,14 @@ class URLPlaylistEntry(BasePlaylistEntry):
             # TODO: Better [name] fallbacks
             if 'channel' in data['meta']:
                 # int() it because persistent queue from pre-rewrite days saved ids as strings
+                # 예약 전 날짜의 영구 대기열에서 ID를 문자열로 저장했기 때문에 해당 문자열에 추가
                 meta['channel'] = playlist.bot.get_channel(int(data['meta']['channel']['id']))
                 if not meta['channel']:
                     log.warning('Cannot find channel in an entry loaded from persistent queue. Chennel id: {}'.format(data['meta']['channel']['id']))
                     meta.pop('channel')
                 elif 'author' in data['meta']:
                     # int() it because persistent queue from pre-rewrite days saved ids as strings
+                    # 예약 전 날짜의 영구 대기열에서 ID를 문자열로 저장했기 때문에 해당 문자열에 추가
                     meta['author'] = meta['channel'].guild.get_member(int(data['meta']['author']['id']))
                     if not meta['author']:
                         log.warning('Cannot find author in an entry loaded from persistent queue. Author id: {}'.format(data['meta']['author']['id']))
