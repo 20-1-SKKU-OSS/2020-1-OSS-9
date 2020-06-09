@@ -55,6 +55,7 @@ class Response:
             return self._content
 
 # Alright this is going to take some actual thinking through
+# 좋아, 이건 실제의 사고를 통해
 class AnimatedResponse(Response):
     def __init__(self, content, *sequence, delete_after=0):
         super().__init__(content, delete_after=delete_after)
@@ -108,6 +109,7 @@ class Serializable:
         }
 
     # Perhaps convert this into some sort of decorator
+    # 어쩌면 이걸 장식가로 바꿀지도 몰라
     @staticmethod
     def _bad(arg):
         raise TypeError('Argument "%s" must not be None' % arg)
