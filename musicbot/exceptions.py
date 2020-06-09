@@ -2,6 +2,7 @@ import shutil
 import textwrap
 
 # Base class for exceptions
+# 예외처리 Base 클래스
 class MusicbotException(Exception):
     def __init__(self, message, *, expire_in=0):
         super().__init__(message) # ???
@@ -17,10 +18,12 @@ class MusicbotException(Exception):
         return self._message
 
 # Something went wrong during the processing of a command
+# 유저 커맨드가 잘못된 경우
 class CommandError(MusicbotException):
     pass
 
 # Something went wrong during the processing of a song/ytdl stuff
+# song/ytdl 추출하는 부분에서 잘못된 경우
 class ExtractionError(MusicbotException):
     pass
 
@@ -33,22 +36,26 @@ class WrongEntryTypeError(ExtractionError):
         self.use_url = use_url
 
 # FFmpeg complained about something
+# FFmpeg 관련 오류(Error 수준)
 class FFmpegError(MusicbotException):
     pass
 
 # FFmpeg complained about something but we don't care
+# FFmpeg 관련 오류(Warning 수준)
 class FFmpegWarning(MusicbotException):
     pass
 
 # Some issue retrieving something from Spotify's API
+# Spotify API 데이터 추출 오류
 class SpotifyError(MusicbotException):
     pass
 
 # The user doesn't have permission to use a command
+# 해당 명령어에 대한 유저 권한 오류
 class PermissionsError(CommandError):
     @property
     def message(self):
-        return "You don't have permission to use that command.\nReason: " + self._message
+        return "You don't have permission to use that command.\nReason: " + self._message + "\n명령어에 대한 권한이 없습니다.\n 상세: " + self.message
 
 # Error with pretty formatting for hand-holding users through various errors
 class HelpfulError(MusicbotException):
@@ -95,13 +102,16 @@ class HelpfulWarning(HelpfulError):
     pass
 
 # Base class for control signals
+# 시그널 처리 Base 클래스
 class Signal(Exception):
     pass
 
 # signal to restart the bot
+# 봇 초기화 시그널
 class RestartSignal(Signal):
     pass
 
 # signal to end the bot "gracefully"
+# 봇 종료 시그널 (강제종료 제외)
 class TerminateSignal(Signal):
     pass
