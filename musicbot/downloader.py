@@ -24,6 +24,7 @@ ytdl_format_options = {
 }
 
 # Fuck your useless bugreports message that gets two link embeds and confuses users
+# 링크 두 개를 주입하고 사용자를 혼란스럽게 하는 쓸모없는 버그리포트 메시지 
 youtube_dl.utils.bug_reports_message = lambda: ''
 
 '''
