@@ -20,8 +20,8 @@ texture:
   tagline: 
   date_format: "%b %-d, %Y"
   style: blue
-  showNav: false
-  showPicker: true
+  showNav: true
+  showPicker: false
 
   # generate social links in footer
   github:  20-1-SKKU-OSS/2020-1-OSS-9
