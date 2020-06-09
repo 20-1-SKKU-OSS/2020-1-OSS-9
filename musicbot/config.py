@@ -158,7 +158,7 @@ class Config:
                 self.owner_id = int(self.owner_id)
 
             elif self.owner_id == 'auto':
-                pass # defer to async check
+                pass # defer to async check # 비동기식 확인 지연
 
             else:
                 self.owner_id = None
@@ -231,6 +231,8 @@ class Config:
 
     # TODO: Add save function for future editing of options with commands
     #       Maybe add warnings about fields missing from the config file
+    # TODO: 향후 명령을 사용하여 옵션을 편집할 수 있도록 저장 기능 추가
+    # 구성 파일에서 누락된 필드에 대한 경고를 추가할 수 있음
 
     async def async_validate(self, bot):
         log.debug("Validating options...")
@@ -288,6 +290,7 @@ class Config:
             c = configparser.ConfigParser()
             try:
                 # load the config again and check to see if the user edited that one
+                # 구성을 다시 로드하고 사용자가 해당 구성을 편집했는지 확인하십시오.
                 c.read(self.config_file, encoding='utf-8')
 
                 if not int(c.get('Permissions', 'OwnerID', fallback=0)): # jake pls no flame
@@ -295,7 +298,9 @@ class Config:
                     log.critical("Please configure config/options.ini and re-run the bot.")
                     sys.exit(1)
 
-            except ValueError: # Config id value was changed but its not valid
+            except ValueError: 
+                # Config id value was changed but its not valid
+                # 구성 ID 값이 변경되었지만 유효하지 않음
                 raise HelpfulError(
                     'Invalid value "{}" for OwnerID, config cannot be loaded. '.format(
                         c.get('Permissions', 'OwnerID', fallback=None)
@@ -376,6 +381,8 @@ setattr(ConfigDefaults, codecs.decode(b'dG9rZW4=', '\x62\x61\x73\x65\x36\x34').d
 
 # These two are going to be wrappers for the id lists, with add/remove/load/save functions
 # and id/object conversion so types aren't an issue
+# 이 두 가지는 추가/제거/로드/저장 기능이 있는 ID 목록의 래퍼일 것이다.
+# 그리고 ID/객체 변환으로 유형이 문제가 되지 않음
 class Blacklist:
     pass
 
