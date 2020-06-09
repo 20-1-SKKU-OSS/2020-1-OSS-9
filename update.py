@@ -31,11 +31,15 @@ def main():
     print('Starting...')
 
     # Make sure that we're in a Git repository
+    # Git 저장소에 있는지 확인
+    
     if not os.path.isdir('.git'):
         raise EnvironmentError("This isn't a Git repository.")
 
     # Make sure that we can actually use Git on the command line
     # because some people install Git Bash without allowing access to Windows CMD
+    # 커맨드 라인에서 (Git)을 실제로 사용할 것
+    # 일부 사용자가 Windows CMD에 액세스하지 않고 Git Bash를 설치하기 때문에
     try:
         subprocess.check_call('git --version', shell=True, stdout=subprocess.DEVNULL)
     except subprocess.CalledProcessError:
@@ -44,6 +48,7 @@ def main():
     print("Passed Git checks...")
 
     # Check that the current working directory is clean
+    # 현재 작업 디렉토리가 깨끗한지 확인
     sp = subprocess.check_output('git status --porcelain', shell=True, universal_newlines=True)
     if sp:
         oshit = y_n('You have modified files that are tracked by Git (e.g the bot\'s source files).\n'
