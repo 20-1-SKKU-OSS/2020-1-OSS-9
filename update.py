@@ -12,6 +12,7 @@ def y_n(q):
 
 def update_deps():
     print("Attempting to update dependencies...")
+    print("종속성을 업데이트하는 중...")
 
     try:
         subprocess.check_call('"{}" -m pip install --no-warn-script-location --user -U -r requirements.txt'.format(sys.executable), shell=True)
@@ -22,13 +23,17 @@ def finalize():
     try:
         from musicbot.constants import VERSION
         print('The current MusicBot version is {0}.'.format(VERSION))
+        print('현재 MusicBot 버전은 {0}.'.format(VERSION))
     except Exception:
         print('There was a problem fetching your current bot version. The installation may not have completed correctly.')
+        print('현재 봇 버전을 가져오는 중 문제가 발생하였습니다. 설치가 올바르게 완료되지 않았을 수 있다.')
 
     print("Done!")
+    print("완료!")
 
 def main():
     print('Starting...')
+    print('시작중....')
 
     # Make sure that we're in a Git repository
     # Git 저장소에 있는지 확인
@@ -46,6 +51,7 @@ def main():
         raise EnvironmentError("Couldn't use Git on the CLI. You will need to run 'git pull' yourself.")
 
     print("Passed Git checks...")
+    print("Git 확인...")
 
     # Check that the current working directory is clean
     # 현재 작업 디렉토리가 깨끗한지 확인
