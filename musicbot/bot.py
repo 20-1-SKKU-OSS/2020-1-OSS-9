@@ -2538,6 +2538,9 @@ class MusicBot(discord.Client):
 
         Changes the bot's avatar.
         Attaching a file and leaving the url parameter blank also works.
+        
+        MusicBot의 아바타를 수정합니다.
+        파일을 참조하고 URL 칸을 빈칸으로 두어도 작동합니다.
         """
 
         if message.attachments:
@@ -2545,7 +2548,7 @@ class MusicBot(discord.Client):
         elif url:
             thing = url.strip('<>')
         else:
-            raise exceptions.CommandError("You must provide a URL or attach a file.", expire_in=20)
+            raise exceptions.CommandError("You must provide a URL or attach a file.\n URL 혹은 파일이 필요합니다.", expire_in=20)
 
         try:
             timeout = aiohttp.ClientTimeout(total=10)
@@ -2570,12 +2573,16 @@ class MusicBot(discord.Client):
 
     async def cmd_restart(self, channel):
         """
+        
         Usage:
             {command_prefix}restart
         
         Restarts the bot.
         Will not properly load new dependencies or file updates unless fully shutdown
         and restarted.
+        
+        MusicBot을 재시작합니다.
+        재시작 전에는 업데이트 사항에 제대로 반영되지 않을 수 있습니다.        
         """
         await self.safe_send_message(channel, "\N{WAVING HAND SIGN} Restarting. If you have updated your bot "
             "or its dependencies, you need to restart the bot properly, rather than using this command.")
@@ -2593,6 +2600,7 @@ class MusicBot(discord.Client):
             {command_prefix}shutdown
         
         Disconnects from voice channels and closes the bot process.
+        MusicBot이 채널에서 나가게 되며 프로세스를 종료합니다.
         """
         await self.safe_send_message(channel, "\N{WAVING HAND SIGN}")
         
@@ -2610,6 +2618,9 @@ class MusicBot(discord.Client):
 
         Forces the bot to leave a server.
         When providing names, names are case-sensitive.
+        
+        MusicBot이 서버를 나가도록 합니다.
+        대소문자를 구분하여 명령어를 써주세요.
         """
         if leftover_args:
             val = ' '.join([val, *leftover_args])
