@@ -1,7 +1,7 @@
 '''
 
 If this is running then python is obviously installed, but we need to make sure that python3 is installed.
-
+이게 실행 중이라면 당연히 python이 설치되어 있지만, python3가 설치되어 있는지 확인해야 한다.
 What we need to do:
     0. (optional) Check disk space
         0.1: The same env checks in run.py?
@@ -19,12 +19,35 @@ What we need to do:
     4: Git clone and clean out non arch related stuff (run scripts, bins/ on non-windows)
     5: Install requirements.txt packages (if everything is ok then no errors should occur)
     6. Copy configs and prompt the user for something (maybe)
+    
+무엇을 해야되나:
+    0.(선택사항) 디스크 공간 확인
+        0.1: run.py와 같은 환경인지 확인
+    1. 이것이 python 3.5+ 
+        1.1: 만약 python 3.5를 사용중이라면 재 시작을 해볼 필요가 있다.
+    2. 필요한 프로그램이 설치되어있는지 확인해라
+      - brew (osx)
+      - git
+      - ffmpeg
+      - libopus (non windows)
+      - libffi (non windows)
+      - libsodium (sometimes needed, might need to check after pynacl)
+      - a compiler
+    3. pip 업데이트를 하는 것을 명심해라
+    4. git clone 그리고 관련된 항목 정리
+    5. requirements.txt를 설치하라
+    6. configs를 복사하고 그리고 무언가를 목표로하는 유저를 유도해라
+    
 
 The OSX specific steps might be a bit different so we just need to pay special attention to those steps
+OSX별 단계가 조금 다를 수 있으니 그 단계에 각별히 유의하면 된다.
 Remember to make sure the user knows the script might prompt for password
+스크립트에서 암호를 묻는 메시지가 표시될 수 있음을 사용자가 알고 있는지 확인하십시오.
 Print the command beforehand just so they know whats happening
+무슨 일이 일어나고 있는지 알 수 있도록 미리 명령어를 인쇄하십시오.
 
 When the script runs the user should be greeted with some text and a press [enter/whatever] to continue prompt
+스크립트가 실행될 때 사용자에게 몇 가지 텍스트와 함께 표시해야 하며, 계속 프롬프트를 표시하려면 [Enter/changes]를 누르십시오.
 '''
 
 from __future__ import print_function
@@ -53,11 +76,13 @@ except ImportError:
     from urllib import urlretrieve
 
 # Arguments
+# 선언
 ap = argparse.ArgumentParser()
 ap.add_argument('--dir', help='the name of the directory to install to (default: MusicBot)')
 args = ap.parse_args()
 
 # Logging setup goes here
+# 로깅 설정이 여기로 이동
 
 PY_VERSION = sys.version_info  # (3, 5, 1, ...)
 SYS_PLATFORM = sys.platform  # 'win32', 'linux', 'darwin'
@@ -93,6 +118,7 @@ if PY_VERSION >= (3,):
 
 def read_from_urllib(r):
     # Reads data from urllib in a version-independant way.
+    # urllib의 데이터를 버전 독립 방식으로 읽는다.
     if PY_VERSION[0] == 2:
         return r.read()
     else:
@@ -139,6 +165,13 @@ Finding lib dev headers:
 
     2. Have gcc deal with it and check the error output
         gcc -lffi (Fail: cannot find -lffi) vs (Success: ...  undefined reference to `main')
+lib dev 헤더 찾기:
+1. 포함 dirs 가져오기 및 헤더 검색
+    "echo | gcc -xc++ -E -v -" 그리고 포함 dirs에 대한 구문 분석
+    linux subprocess.check_output("find /usr[/local]/include -iname 'ffi.h'", shell=True(find /usr/include /usr/local/include...?)
+
+2. gcc가 처리하도록 하고 오류 출력 확인
+    gcc -lffi(실패: -lffi를 찾을 수 없음) vs (성공: ... 'main'에 대한 정의되지 않은 참조)
 """
 
 ###############################################################################
@@ -148,6 +181,7 @@ class SetupTask(object):
     def __getattribute__(self, item):
         try:
             # Check for platform variant of function first
+            # 함수의 플랫폼 변수를 먼저 확인한다.
             return object.__getattribute__(self, item + '_' + SYS_PLATFORM)
         except:
             pass
@@ -159,6 +193,7 @@ class SetupTask(object):
             except:
                 try:
                     # If there's no dist variant, try to fallback to the generic, ex: setup_dist -> setup
+                    # dist variant가 없는 경우 일반 설정, ex: setup_dist -> setup
                     return object.__getattribute__(self, item.rsplit('_', 1)[0])
                 except:
                     pass
@@ -174,18 +209,21 @@ class SetupTask(object):
     def check(self):
         """
         Check to see if the component exists and works
+        구성 요소가 존재하고 작동하는지 확인하십시오.
         """
         pass
 
     def download(self):
         """
         Download the component
+        구성 요소 다운로드
         """
         pass
 
     def setup(self, data):
         """
         Install the componenet and any other required tasks
+        구성 요소 및 기타 필요한 작업 설치
         """
         pass
 
@@ -196,6 +234,7 @@ class SetupTask(object):
 class EnsurePython(SetupTask):
     PYTHON_BASE = "https://www.python.org/ftp/python/{ver}/"
     # For some reason only the tgz's have a capital P
+    # 어떤 이유에서인지 tgz만이 P를 가지고 있다.
     PYTHON_TGZ = PYTHON_BASE + "Python-{ver}.tgz"
     PYTHON_EXE = PYTHON_BASE + "python-{ver}.exe"
     PYTHON_PKG = PYTHON_BASE + "python-{ver}-macosx10.6.pkg"
@@ -205,6 +244,7 @@ class EnsurePython(SetupTask):
             return True
 
         # TODO: Check for python 3.5 and restart if found
+        # TODO: Python 3.5를 확인하고 찾은 경우 다시 시작
 
     def download_win32(self):
         exe, _ = tmpdownload(self.PYTHON_EXE.format(ver=TARGET_PY_VERSION))
@@ -254,7 +294,10 @@ class EnsurePython(SetupTask):
         self._restart(None)
 
         # TODO: Move to _restart
+        # TODO: _restart로 이동
+
         # Restart into the new executable.
+        # 새 실행 파일 다시 시작
         print("Rebooting into Python {}...".format(TARGET_PY_VERSION))
         # Use os.execl to switch program
         os.execl("/usr/local/bin/{}".format(executable), "{}".format(executable), __file__)
@@ -274,6 +317,7 @@ class EnsurePython(SetupTask):
 
 class EnsureEnv(SetupTask):
     pass  # basically the important checks from run.py, not sure exactly what I need to check though
+           # 정확히 무엇을 확인해야 하는지 확실하지 않지만 기본적으로 run.py 확인 
 
 
 class EnsureBrew(SetupTask):
@@ -368,12 +412,13 @@ class EnsureGit(SetupTask):
 
     # def setup_linux(self, data):
     #     pass  # nothing really needed, I don't think setting any git options is necessary
-
+    #     패스 # git 옵션을 설정할 필요는 없다고 생각한다.
     def download_darwin(self):
         subprocess.check_call('brew install git'.split())
 
     # def setup_darwin(self, data):
     #     pass  # same as linux, probably can just delete these stubs
+    #     패스 # linux과 마찬가지로 아마도 이것을 바로 삭제할 수 있습니다. 
 
 
 class EnsureFFmpeg(SetupTask):
@@ -392,8 +437,12 @@ class EnsureFFmpeg(SetupTask):
 
     def download_linux(self):
         # check if ubuntu, add ppa's, install
+        # ubuntu, add ppa's, install 을 확인
         # otherwise check for other repo variants
+        # 다른 저장소 변경사항 확인
         # if all else fails: https://trac.ffmpeg.org/wiki/CompilationGuide
+        # 만약 모든 경우가 실패한다면 : https://trac.ffmpeg.org/wiki/CompilationGuide
+       
         pass
 
     def setup_linux(self, data):
@@ -454,6 +503,7 @@ class EnsureFFI(SetupTask):
 
 class EnsureSodium(SetupTask):
     # This one is going to be weird since sometimes its not needed (check python import)
+    # 이건 가끔 필요없어서 이상하게 느껴질 수 있음 (파이톤 임포트 확인)
 
     def check_win32(self):
         return True
@@ -469,6 +519,7 @@ class EnsureCompiler(SetupTask):
 class EnsurePip(SetupTask):
     def check(self):
         # Check if pip is installed by importing it.
+        # pip이 잘 설치 되어 임포트되는지 확인
         try:
             import pip
         except ImportError:
@@ -478,6 +529,8 @@ class EnsurePip(SetupTask):
 
     def download(self):
         # Try and use ensurepip.
+        # ensurepip을 사용해봐라.
+        
         try:
             import ensurepip
             return False
