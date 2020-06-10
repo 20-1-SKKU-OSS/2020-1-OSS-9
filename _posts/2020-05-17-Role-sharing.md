@@ -29,15 +29,15 @@ date:   2020-05-17
 <tbody>
   <tr>
     <td class="tg-js3t">번역</td>
-    <td class="tg-2g2i">이민규, 윤재식</td>
+    <td class="tg-2g2i">이민규, 윤재식, 이황근</td>
   </tr>
   <tr>
     <td class="tg-js3t">git 저장소 관리</td>
-    <td class="tg-2g2i">임유진, 이황근</td>
+    <td class="tg-2g2i">임유진, 이황근, 윤형호</td>
   </tr>
   <tr>
     <td class="tg-js3t">소스 코드 분석</td>
-    <td class="tg-2g2i">윤형호, 윤재식</td>
+    <td class="tg-2g2i">윤형호</td>
   </tr>
   <tr>
     <td class="tg-js3t">소스 코드 추가</td>
