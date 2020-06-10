@@ -503,7 +503,7 @@ class EnsureFFI(SetupTask):
 
 class EnsureSodium(SetupTask):
     # This one is going to be weird since sometimes its not needed (check python import)
-    # 이건 가끔 필요없어서 이상하게 느껴질 수 있음 (파이톤 임포트 확인)
+    # 이건 가끔 필요없어서 이상하게 느껴질 수 있음 (파이 임포트 확인)
 
     def check_win32(self):
         return True
