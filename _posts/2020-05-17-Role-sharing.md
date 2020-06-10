@@ -41,7 +41,7 @@ date:   2020-05-17
   </tr>
   <tr>
     <td class="tg-js3t">소스 코드 추가</td>
-    <td class="tg-2g2i">윤형호, 이민규, 임유진, 이황근</td>
+    <td class="tg-2g2i">윤형호, 이민규, 임유진, 이황근, 윤재식</td>
   </tr>
 </tbody>
 </table>
